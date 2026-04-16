@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Edition — Thursday, April 16, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: #000;
+  }
+
+  /* ── Cover ──────────────────────────────────────── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #FAFAF5;
+    padding: 4rem 2rem;
+    scroll-snap-align: start;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 60px, rgba(0,0,0,0.02) 60px, rgba(0,0,0,0.02) 61px
+    );
+  }
+
+  .cover-issue {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(4rem, 12vw, 10rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: #111;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-date {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 300;
+    color: #666;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-count {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #aaa;
+    margin-top: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #bbb;
+    animation: pulse 2s ease-in-out infinite;
+    z-index: 1;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(5px); }
+  }
+
+  /* ── Spreads ────────────────────────────────────── */
+  .spread {
+    min-height: 100vh;
+    padding: clamp(3rem, 6vw, 6rem) clamp(2rem, 5vw, 6rem);
+    position: relative;
+    overflow: hidden;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+  }
+
+  .spread-numeral {
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .spread-content {
+    max-width: 720px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .spread-centered .spread-content {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .spread-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .category-badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .source-link {
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .source-link:hover { opacity: 1 !important; text-decoration: underline; }
+
+  .metrics {
+    font-size: 0.8rem;
+    opacity: 0.5;
+    font-weight: 400;
+  }
+
+  .spread-headline {
+    margin-bottom: 1.5rem;
+  }
+
+  .spread-body {
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  .spread-centered .spread-body { margin: 0 auto; }
+
+  .terminal-body {
+    font-family: 'Fira Code', monospace;
+    font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  }
+
+  .terminal-prompt { color: #39D353; font-weight: 700; }
+  .terminal-cmd { color: #58A6FF; }
+  .terminal-output { margin-top: 1rem; opacity: 0.85; }
+
+  .drop-cap {
+    float: left;
+    font-family: 'Fraunces', serif;
+    font-size: 5rem;
+    line-height: 0.8;
+    padding-right: 0.5rem;
+    font-weight: 900;
+  }
+
+  .dropcap-body p { font-size: clamp(1.1rem, 2vw, 1.3rem); line-height: 1.8; }
+
+  .relevance-tag {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-top: 1.5rem;
+  }
+
+  .spread-links {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .ext-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    transition: opacity 0.2s;
+  }
+  .ext-link:hover { opacity: 0.7; }
+
+  /* ── TOC Footer ─────────────────────────────────── */
+  .toc-footer {
+    background: #FAFAF5;
+    padding: 4rem clamp(2rem, 5vw, 6rem);
+    scroll-snap-align: start;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .toc-footer h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    color: #111;
+  }
+
+  .toc-list {
+    list-style: none;
+    max-width: 700px;
+  }
+
+  .toc-list li {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .toc-num {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #999;
+    min-width: 2rem;
+  }
+
+  .toc-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .toc-cat {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-left: auto;
+  }
+
+  .footer-note {
+    margin-top: 3rem;
+    font-size: 0.85rem;
+    color: #aaa;
+    font-weight: 400;
+  }
+
+  /* ── Responsive ─────────────────────────────────── */
+  @media (max-width: 640px) {
+    .spread { padding: 2rem 1.5rem; }
+    .spread-numeral { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cover -->
+<section class="cover">
+  <div class="cover-issue">Issue No. 106</div>
+  <h1 class="cover-title">Morning Edition</h1>
+  <div class="cover-date">Thursday, April 16, 2026</div>
+  <div class="cover-count">0 stories curated from your X bookmarks</div>
+  <div class="cover-scroll-hint">Scroll to begin reading</div>
+</section>
+
+<!-- Story Spreads -->
+
+
+<!-- Table of Contents / Footer -->
+<section class="toc-footer">
+  <h3>Today's Stories</h3>
+  <ol class="toc-list">
+    
+  </ol>
+  <div class="footer-note">
+    Generated by Morning Edition for Aaron. Built with Sage.
+  </div>
+</section>
+
+</body>
+</html>
